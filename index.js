@@ -13,7 +13,7 @@ function ArcHelper(arc, color) {
 		color.clone().offsetHSL(0, 0, 0),
 		color.clone().offsetHSL(0, 0, .2)
 	]
-	var handles = [];
+	var handles = this.handles = [];
 	for (var i = 0; i < 3; i++) {
 		var handle = new THREE.Mesh(
 			sphereGeometry, 
