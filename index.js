@@ -7,7 +7,7 @@ function ArcHelper(arc, color) {
 		arc.p2,
 		arc.p3
 	];
-	var sphereGeometry = new THREE.SphereGeometry(1);
+	var sphereGeometry = new THREE.SphereGeometry(.25);
 	var colors = [
 		color.clone().offsetHSL(0, 0, -.2),
 		color.clone().offsetHSL(0, 0, 0),
@@ -18,11 +18,14 @@ function ArcHelper(arc, color) {
 		var handle = new THREE.Mesh(
 			sphereGeometry, 
 			new THREE.MeshBasicMaterial({
-				color: colors[i]
+				color: colors[i],
+				depthTest: false,
+				transparent: true,
+				blending: THREE.AdditiveBlending
 			})
 		);
+		handle.renderDepth = 1;
 		handle.position.copy(arcVertices[i]);
-		handle.scale.set(.1, .1, .1);
 		this.add(handle);
 		handles.push(handle);
 		this['handle'+(i+1)] = handle;
@@ -34,7 +37,7 @@ function ArcHelper(arc, color) {
 
 	var centerBall = new THREE.Mesh(sphereGeometry, centerMaterial);
 	centerBall.position.copy(arc.center);
-	centerBall.scale.set(.05, .05, .05);
+	centerBall.scale.set(.5, .5, .5);
 	this.add(centerBall);
 
 	var arrow = new THREE.ArrowHelper(arc.normal, arc.center);
@@ -49,22 +52,25 @@ function ArcHelper(arc, color) {
 		color: 0xffffff
 	});
 
-	var lineBalls = [];
-	for (var i = 0; i < 100; i++) {
-		var ball = new THREE.Mesh(
-			sphereGeometry, 
-			sampleMaterial
-		);
-		ball.position.copy(arc.sample(i/100));
-		ball.scale.set(.015, .015, .015);
-		this.add(ball);
-		lineBalls.push(ball);
+	var segments = 100;
+	var lineGeometry = new THREE.Geometry();
+	for (var i = 0; i <= segments; i++) {
+		lineGeometry.vertices.push(arc.sample(i/segments));
 	};
 
+	var lineMaterial = new THREE.LineBasicMaterial({
+	    color: 0x7f7f7f
+	});
+
+	var lineMesh = new THREE.Line(lineGeometry, lineMaterial);
+	lineMesh.renderDepth = 1;
+	this.add(lineMesh);
+
 	function update() {
-		for (var i = 0; i < lineBalls.length; i++) {
-			lineBalls[i].position.copy(arc.sample(i/100));
+		for (var i = 0; i <= segments; i++) {
+			lineGeometry.vertices[i].copy(arc.sample(i/segments));
 		};
+		lineGeometry.verticesNeedUpdate = true;
 
 		for (var i = 0; i < handles.length; i++) {
 			handles[i].position.copy(arcVertices[i]);
