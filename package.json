@@ -1,6 +1,6 @@
 {
   "name": "threejs-arc-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A helper object to visualize and manipulate arcs in threejs.",
   "main": "index.js",
   "license": "MIT",
