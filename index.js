@@ -35,18 +35,12 @@ function ArcHelper(arc, color) {
 		color: color,
 	});
 
-	var centerBall = new THREE.Mesh(sphereGeometry, centerMaterial);
-	centerBall.position.copy(arc.center);
-	centerBall.scale.set(.5, .5, .5);
-	this.add(centerBall);
-
-	var arrow = new THREE.ArrowHelper(arc.normal, arc.center);
-	this.add(arrow);
-
 	var arrowU = new THREE.ArrowHelper(arc.planeDirU, arc.center, 1, 0xff0000);
 	this.add(arrowU);
 	var arrowV = new THREE.ArrowHelper(arc.planeDirV, arc.center, 1, 0x00ff00);
 	this.add(arrowV);
+	var arrowW = new THREE.ArrowHelper(arc.normal, arc.center);
+	this.add(arrowW);
 
 	var sampleMaterial = new THREE.MeshBasicMaterial({
 		color: 0xffffff
@@ -77,13 +71,16 @@ function ArcHelper(arc, color) {
 		for (var i = 0; i < handles.length; i++) {
 			handles[i].position.copy(arcVertices[i]);
 		};
-		centerBall.position.copy(arc.center);
 		arrowU.setDirection(arc.planeDirU);
 		arrowU.position.copy(arc.center);
 		arrowV.setDirection(arc.planeDirV);
 		arrowV.position.copy(arc.center);
-		arrow.setDirection(arc.normal);
-		arrow.position.copy(arc.center);
+		arrowW.setDirection(arc.normal);
+		arrowW.position.copy(arc.center);
+		var size = arc.radius;
+		arrowU.scale.set(size, size, size);
+		arrowV.scale.set(size, size, size);
+		arrowW.scale.set(size, size, size);
 	}
 	this.update = update;
 
