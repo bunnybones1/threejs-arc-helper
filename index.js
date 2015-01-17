@@ -72,6 +72,7 @@ function ArcHelper(arc, color) {
 		};
 		lineGeometry.verticesNeedUpdate = true;
 		lineGeometry.computeBoundingBox();
+		lineGeometry.computeBoundingSphere();
 
 		for (var i = 0; i < handles.length; i++) {
 			handles[i].position.copy(arcVertices[i]);
