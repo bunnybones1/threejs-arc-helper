@@ -71,6 +71,7 @@ function ArcHelper(arc, color) {
 			lineGeometry.vertices[i].copy(arc.sample(i/segments));
 		};
 		lineGeometry.verticesNeedUpdate = true;
+		lineGeometry.computeBoundingBox();
 
 		for (var i = 0; i < handles.length; i++) {
 			handles[i].position.copy(arcVertices[i]);
@@ -93,7 +94,7 @@ function ArcHelper(arc, color) {
 		update();
 	}
 	this.updateArc = updateArc;
-
+	this.updatePoints = updateArc;
 }
 
 ArcHelper.prototype = Object.create(THREE.Object3D.prototype);

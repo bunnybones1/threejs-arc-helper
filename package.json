@@ -12,7 +12,7 @@
   "dependencies": {},
   "devDependencies": {
     "loadandrunscripts": "^1.0.0",
-    "threejs-arc-solver": "^1.0.0",
+    "threejs-arc-solver": "^1.0.1",
     "threejs-managed-view": "^2.4.0"
   },
   "scripts": {
